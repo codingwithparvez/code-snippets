@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Feedback Form</title>
+  </head>
+  <body>
+    <div class="feedback-card">
+      <!-- Header -->
+      <div class="header">
+        <div class="icon">💬</div>
+
+        <h1>We'd Love Your Feedback</h1>
+
+        <p>
+          Your feedback helps us improve and build a better experience for
+          everyone.
+        </p>
+      </div>
+
+      <form>
+        <!-- Name & Email -->
+        <div class="form-group">
+          <div class="input-row">
+            <div>
+              <label class="title" for="name"> Your Name </label>
+
+              <input type="text" id="name" placeholder="John Doe" />
+            </div>
+
+            <div>
+              <label class="title" for="email"> Email Address </label>
+
+              <input type="email" id="email" placeholder="john@example.com" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Feedback Type -->
+        <div class="form-group">
+          <label class="title" for="type">
+            What would you like to tell us?
+          </label>
+
+          <select id="type">
+            <option value="">Select feedback type</option>
+
+            <option>💡 Suggestion</option>
+
+            <option>🐛 Bug Report</option>
+
+            <option>❤️ Compliment</option>
+
+            <option>⚠️ Complaint</option>
+
+            <option>💬 Other</option>
+          </select>
+        </div>
+
+        <!-- Experience -->
+        <div class="form-group">
+          <label class="title"> How was your experience? </label>
+
+          <div class="experience">
+            <input type="radio" name="experience" id="terrible" />
+
+            <label for="terrible">
+              <span class="emoji">😡</span>
+              <span>Terrible</span>
+            </label>
+
+            <input type="radio" name="experience" id="bad" />
+
+            <label for="bad">
+              <span class="emoji">😕</span>
+              <span>Bad</span>
+            </label>
+
+            <input type="radio" name="experience" id="okay" />
+
+            <label for="okay">
+              <span class="emoji">😐</span>
+              <span>Okay</span>
+            </label>
+
+            <input type="radio" name="experience" id="good" />
+
+            <label for="good">
+              <span class="emoji">🙂</span>
+              <span>Good</span>
+            </label>
+
+            <input type="radio" name="experience" id="excellent" />
+
+            <label for="excellent">
+              <span class="emoji">😍</span>
+              <span>Excellent</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Star Rating -->
+        <div class="form-group">
+          <label class="title"> Rate your overall experience </label>
+
+          <div class="stars">
+            <input type="radio" name="rating" id="star5" />
+            <label for="star5">★</label>
+
+            <input type="radio" name="rating" id="star4" />
+            <label for="star4">★</label>
+
+            <input type="radio" name="rating" id="star3" />
+            <label for="star3">★</label>
+
+            <input type="radio" name="rating" id="star2" />
+            <label for="star2">★</label>
+
+            <input type="radio" name="rating" id="star1" />
+            <label for="star1">★</label>
+          </div>
+        </div>
+
+        <!-- Feedback Message -->
+        <div class="form-group">
+          <label class="title" for="message"> Tell us more </label>
+
+          <textarea
+            id="message"
+            placeholder="Share your thoughts, suggestions, or experience..."
+          ></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="submit-btn">Send Feedback&nbsp; →</button>
+
+        <p class="privacy">
+          🔒 Your feedback is private and will only be used to improve our
+          service.
+        </p>
+      </form>
+    </div>
+  </body>
+</html>
