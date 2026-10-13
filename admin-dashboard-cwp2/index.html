@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orbit Admin Dashboard</title>
+    <style>
+      :root {
+        --blue: #3467eb;
+        --orange: #ff8a3d;
+        --ink: #17233c;
+        --muted: #7d889f;
+        --line: #e9edf5;
+        --page: #f5f7fc;
+        --green: #18a879;
+        --sidebar: #172746;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font-family: Inter, Arial, sans-serif;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .app {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+      }
+      .sidebar {
+        background: var(--sidebar);
+        color: #fff;
+        padding: 26px 16px;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 10px 35px;
+        font-size: 19px;
+        font-weight: 800;
+      }
+      .mark {
+        width: 37px;
+        height: 37px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--blue), #7896ff);
+        font-size: 20px;
+      }
+      .nav-label {
+        padding: 0 12px;
+        color: #8292b2;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        margin: 8px 0 12px;
+      }
+      .nav {
+        display: grid;
+        gap: 6px;
+      }
+      .nav button {
+        border: 0;
+        background: transparent;
+        color: #b7c3db;
+        padding: 12px;
+        border-radius: 10px;
+        text-align: left;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-size: 13px;
+      }
+      .nav button:hover {
+        background: #ffffff10;
+        color: #fff;
+      }
+      .nav button.active {
+        background: linear-gradient(100deg, #3467eb, #4777f3);
+        color: #fff;
+      }
+      .count {
+        margin-left: auto;
+        background: var(--orange);
+        color: white;
+        border-radius: 20px;
+        padding: 3px 7px;
+        font-size: 10px;
+      }
+      .help {
+        margin-top: auto;
+        padding: 17px;
+        border: 1px solid #ffffff20;
+        border-radius: 14px;
+        background: #ffffff08;
+      }
+      .help strong {
+        font-size: 12px;
+      }
+      .help p {
+        font-size: 11px;
+        color: #aab6ce;
+        line-height: 1.6;
+      }
+      .help button {
+        border: 0;
+        border-radius: 8px;
+        background: #ffffff18;
+        color: #fff;
+        padding: 8px 10px;
+        font-size: 11px;
+      }
+      .main {
+        min-width: 0;
+      }
+      .topbar {
+        height: 78px;
+        background: white;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        gap: 15px;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+      .top-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .menu-toggle {
+        display: none;
+      }
+      .page-title {
+        font-size: 19px;
+        font-weight: 800;
+      }
+      .breadcrumb {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .search {
+        position: relative;
+      }
+      .search span {
+        position: absolute;
+        left: 12px;
+        top: 9px;
+        color: #8b96aa;
+      }
+      .search input {
+        width: 220px;
+        padding: 10px 12px 10px 34px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #f8faff;
+        outline: none;
+        font-size: 12px;
+      }
+      .icon-btn {
+        height: 39px;
+        width: 39px;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        background: white;
+        color: #66738b;
+        position: relative;
+      }
+      .dot {
+        position: absolute;
+        right: 8px;
+        top: 7px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--orange);
+      }
+      .avatar {
+        height: 39px;
+        width: 39px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #ffb36e, #f47742);
+        color: white;
+        font-weight: 800;
+        font-size: 12px;
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .profile strong {
+        display: block;
+        font-size: 12px;
+      }
+      .profile small {
+        display: block;
+        color: var(--muted);
+        font-size: 10px;
+        margin-top: 3px;
+      }
+      .content {
+        max-width: 1550px;
+        margin: auto;
+        padding: 28px 30px 35px;
+      }
+      .welcome {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 23px;
+      }
+      .welcome h1 {
+        font-size: 25px;
+        letter-spacing: -0.7px;
+        margin: 0 0 7px;
+      }
+      .welcome p {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 0;
+      }
+      .date {
+        border: 1px solid var(--line);
+        background: white;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 11px;
+        color: #68748b;
+        white-space: nowrap;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .stat {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 15px;
+        padding: 18px;
+        min-width: 0;
+        box-shadow: 0 5px 18px #233a6505;
+      }
+      .stat-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .label {
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .stat-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        display: grid;
+        place-items: center;
+        font-size: 17px;
+      }
+      .blue {
+        background: #edf2ff;
+        color: var(--blue);
+      }
+      .orange {
+        background: #fff2e8;
+        color: var(--orange);
+      }
+      .green {
+        background: #e7f8f1;
+        color: var(--green);
+      }
+      .purple {
+        background: #f1ebff;
+        color: #8a63e8;
+      }
+      .value {
+        font-size: clamp(21px, 2vw, 28px);
+        font-weight: 800;
+        letter-spacing: -1px;
+        white-space: nowrap;
+      }
+      .foot {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 10px;
+        margin-top: 11px;
+      }
+      .trend {
+        color: var(--green);
+        font-weight: 800;
+      }
+      .down {
+        color: #e35d6a;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+        gap: 18px;
+      }
+      .panel {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 15px;
+        padding: 21px;
+        min-width: 0;
+        box-shadow: 0 5px 18px #233a6505;
+      }
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .panel h2 {
+        font-size: 14px;
+        margin: 0 0 6px;
+      }
+      .sub {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      select {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 8px;
+        color: #68748b;
+        background: white;
+        font-size: 10px;
+      }
+      .revenue {
+        font-size: 25px;
+        font-weight: 800;
+        letter-spacing: -0.7px;
+      }
+      .revenue span {
+        font-size: 10px;
+        color: var(--green);
+        letter-spacing: 0;
+        margin-left: 8px;
+      }
+      .legend {
+        display: flex;
+        gap: 16px;
+        color: var(--muted);
+        font-size: 10px;
+        margin: 15px 0 5px;
+      }
+      .legend i {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        margin-right: 5px;
+      }
+      .chart {
+        height: 210px;
+      }
+      .chart svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .gridline {
+        stroke: #edf0f6;
+        stroke-width: 1;
+      }
+      .chart-label {
+        fill: #9aa4b7;
+        font-size: 10px;
+      }
+      .line {
+        fill: none;
+        stroke: var(--blue);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .area {
+        fill: url(#fill);
+      }
+      .point {
+        fill: white;
+        stroke: var(--blue);
+        stroke-width: 3;
+      }
+      .donut-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding: 8px 0 12px;
+      }
+      .donut {
+        width: 145px;
+        height: 145px;
+        flex: none;
+      }
+      .legend-list {
+        display: grid;
+        gap: 15px;
+      }
+      .legend-item {
+        display: grid;
+        grid-template-columns: 9px 1fr;
+        gap: 8px;
+      }
+      .legend-item i {
+        width: 8px;
+        height: 8px;
+        border-radius: 3px;
+        margin-top: 3px;
+      }
+      .legend-item strong {
+        font-size: 12px;
+        display: block;
+        margin-bottom: 3px;
+      }
+      .legend-item span {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .table-panel {
+        margin-top: 19px;
+      }
+      .view {
+        border: 0;
+        background: transparent;
+        color: var(--blue);
+        font-size: 11px;
+        font-weight: 800;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 630px;
+        text-align: left;
+      }
+      th {
+        font-size: 10px;
+        color: #97a1b4;
+        padding: 0 11px 13px;
+        border-bottom: 1px solid var(--line);
+      }
+      td {
+        padding: 13px 11px;
+        border-bottom: 1px solid #f0f2f7;
+        font-size: 11px;
+        color: #536079;
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      td:first-child {
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .customer {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .customer-avatar {
+        width: 31px;
+        height: 31px;
+        border-radius: 9px;
+        background: #eaf0ff;
+        color: #3458aa;
+        display: grid;
+        place-items: center;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .customer small {
+        display: block;
+        font-size: 10px;
+        color: #98a2b6;
+        margin-top: 3px;
+        font-weight: 400;
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .status:before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .paid {
+        color: #15966b;
+        background: #e8f8f1;
+      }
+      .pending {
+        color: #c67a22;
+        background: #fff4e5;
+      }
+      .cancelled {
+        color: #d45061;
+        background: #fff0f1;
+      }
+      .toast {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        background: #172746;
+        color: white;
+        padding: 13px 17px;
+        border-radius: 11px;
+        font-size: 12px;
+        box-shadow: 0 12px 30px #17274635;
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+        transition: 0.25s;
+        z-index: 20;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .overlay {
+        display: none;
+      }
+      @media (max-width: 1120px) {
+        .app {
+          grid-template-columns: 215px minmax(0, 1fr);
+        }
+        .stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .content {
+          padding: 24px;
+        }
+        .topbar {
+          padding: 0 24px;
+        }
+        .donut {
+          width: 120px;
+          height: 120px;
+        }
+        .donut-wrap {
+          gap: 12px;
+        }
+      }
+      @media (max-width: 850px) {
+        .app {
+          display: block;
+        }
+        .sidebar {
+          position: fixed;
+          z-index: 15;
+          inset: 0 auto 0 0;
+          width: 245px;
+          transform: translateX(-100%);
+          transition: transform 0.25s;
+          min-height: 100dvh;
+        }
+        .menu-open .sidebar {
+          transform: translateX(0);
+        }
+        .overlay {
+          position: fixed;
+          inset: 0;
+          background: #0f172a70;
+          z-index: 14;
+        }
+        .menu-open .overlay {
+          display: block;
+        }
+        .menu-toggle {
+          display: inline-block;
+          border: 1px solid var(--line);
+          background: white;
+          border-radius: 8px;
+          padding: 8px 10px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .search input {
+          width: 190px;
+        }
+      }
+      @media (max-width: 600px) {
+        .topbar {
+          height: 70px;
+          padding: 0 14px;
+        }
+        .page-title {
+          font-size: 16px;
+        }
+        .search {
+          display: none;
+        }
+        .actions {
+          gap: 7px;
+        }
+        .profile-info {
+          display: none;
+        }
+        .content {
+          padding: 21px 14px 28px;
+        }
+        .welcome {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .welcome h1 {
+          font-size: 22px;
+        }
+        .stats {
+          gap: 10px;
+        }
+        .stat {
+          padding: 13px;
+          border-radius: 12px;
+        }
+        .stat-top {
+          align-items: flex-start;
+          margin-bottom: 13px;
+        }
+        .stat-icon {
+          width: 31px;
+          height: 31px;
+        }
+        .label {
+          font-size: 10px;
+        }
+        .value {
+          font-size: 21px;
+        }
+        .foot {
+          font-size: 9px;
+          flex-wrap: wrap;
+        }
+        .panel {
+          padding: 16px;
+          border-radius: 12px;
+        }
+        .chart {
+          height: 180px;
+        }
+        .donut-wrap {
+          flex-direction: column;
+        }
+        .legend-list {
+          grid-template-columns: repeat(3, 1fr);
+          width: 100%;
+          gap: 7px;
+        }
+        .legend-item {
+          gap: 5px;
+        }
+        .legend-item strong {
+          font-size: 10px;
+        }
+        .legend-item span {
+          font-size: 9px;
+        }
+        .date {
+          font-size: 10px;
+        }
+        .toast {
+          left: 14px;
+          right: 14px;
+          bottom: 14px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="overlay" id="overlay"></div>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="mark">✦</div>
+          <span>orbit<span style="color: #ff9b5e">.</span>admin</span>
+        </div>
+        <div class="nav-label">WORKSPACE</div>
+        <nav class="nav" aria-label="Main navigation">
+          <button class="active" data-page="Overview">▦ &nbsp; Overview</button
+          ><button data-page="Analytics">◫ &nbsp; Analytics</button
+          ><button data-page="Customers">
+            ♙ &nbsp; Customers <span class="count">8</span></button
+          ><button data-page="Orders">▤ &nbsp; Orders</button
+          ><button data-page="Products">◇ &nbsp; Products</button
+          ><button data-page="Messages">✉ &nbsp; Messages</button>
+        </nav>
+        <div class="nav-label" style="margin-top: 28px">PREFERENCES</div>
+        <nav class="nav">
+          <button data-page="Settings">⚙ &nbsp; Settings</button
+          ><button data-page="Help Center">ⓘ &nbsp; Help Center</button>
+        </nav>
+        <div class="help">
+          <strong>✦ &nbsp; Need a hand?</strong>
+          <p>Visit our help center for tips and support.</p>
+          <button id="helpBtn">Get support ↗</button>
+        </div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div class="top-left">
+            <button
+              class="menu-toggle"
+              id="menuToggle"
+              aria-label="Open navigation"
+            >
+              ☰
+            </button>
+            <div>
+              <div class="page-title" id="currentTitle">Overview</div>
+              <div class="breadcrumb">
+                Workspace / <span id="crumb">Overview</span>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <label class="search"
+              ><span>⌕</span
+              ><input
+                id="search"
+                type="search"
+                placeholder="Search orders..." /></label
+            ><button
+              class="icon-btn"
+              id="notifications"
+              aria-label="Notifications"
+            >
+              ♧<i class="dot"></i>
+            </button>
+            <div class="profile">
+              <div class="avatar">JD</div>
+              <div class="profile-info">
+                <strong>Jordan Davis</strong><small>Administrator</small>
+              </div>
+            </div>
+          </div>
+        </header>
+        <section class="content">
+          <div class="welcome">
+            <div>
+              <h1>Good morning, Jordan 👋</h1>
+              <p>Here's what's happening with your store today.</p>
+            </div>
+            <div class="date">▦ &nbsp;<span id="today">Today</span></div>
+          </div>
+          <div class="stats">
+            <article class="stat">
+              <div class="stat-top">
+                <span class="label">Total Revenue</span
+                ><span class="stat-icon blue">↗</span>
+              </div>
+              <div class="value">$48,294</div>
+              <div class="foot">
+                <span class="trend">↗ 12.8%</span><span>vs. last month</span>
+              </div>
+            </article>
+            <article class="stat">
+              <div class="stat-top">
+                <span class="label">Total Orders</span
+                ><span class="stat-icon orange">▤</span>
+              </div>
+              <div class="value">2,840</div>
+              <div class="foot">
+                <span class="trend">↗ 8.2%</span><span>vs. last month</span>
+              </div>
+            </article>
+            <article class="stat">
+              <div class="stat-top">
+                <span class="label">New Customers</span
+                ><span class="stat-icon green">♙</span>
+              </div>
+              <div class="value">1,246</div>
+              <div class="foot">
+                <span class="trend">↗ 18.4%</span><span>vs. last month</span>
+              </div>
+            </article>
+            <article class="stat">
+              <div class="stat-top">
+                <span class="label">Refund Rate</span
+                ><span class="stat-icon purple">↩</span>
+              </div>
+              <div class="value">1.24%</div>
+              <div class="foot">
+                <span class="trend down">↘ 0.4%</span
+                ><span>vs. last month</span>
+              </div>
+            </article>
+          </div>
+          <div class="grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Revenue Overview</h2>
+                  <div class="sub">
+                    Track your revenue performance over time
+                  </div>
+                </div>
+                <select id="period" aria-label="Revenue period">
+                  <option value="week">This week</option>
+                  <option value="month" selected>This month</option>
+                  <option value="year">This year</option>
+                </select>
+              </div>
+              <div class="revenue" id="revenue">
+                $48,294 <span>↗ 12.8%</span>
+              </div>
+              <div class="legend">
+                <span><i style="background: #3467eb"></i>Revenue</span
+                ><span><i style="background: #ffb36e"></i>Previous period</span>
+              </div>
+              <div class="chart">
+                <svg
+                  viewBox="0 0 600 230"
+                  role="img"
+                  aria-label="Revenue line chart"
+                >
+                  <defs>
+                    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+                      <stop
+                        offset="0%"
+                        stop-color="#3467eb"
+                        stop-opacity=".19"
+                      />
+                      <stop
+                        offset="100%"
+                        stop-color="#3467eb"
+                        stop-opacity="0"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <g>
+                    <line class="gridline" x1="42" y1="25" x2="585" y2="25" />
+                    <line class="gridline" x1="42" y1="70" x2="585" y2="70" />
+                    <line class="gridline" x1="42" y1="115" x2="585" y2="115" />
+                    <line class="gridline" x1="42" y1="160" x2="585" y2="160" />
+                    <line class="gridline" x1="42" y1="205" x2="585" y2="205" />
+                    <text class="chart-label" x="3" y="29">$12k</text>
+                    <text class="chart-label" x="3" y="74">$9k</text>
+                    <text class="chart-label" x="3" y="119">$6k</text>
+                    <text class="chart-label" x="3" y="164">$3k</text>
+                    <text class="chart-label" x="13" y="209">$0</text>
+                    <path
+                      class="area"
+                      id="area"
+                      d="M42 164 L87 143 L132 151 L177 112 L222 125 L267 87 L312 99 L357 68 L402 83 L447 47 L492 60 L537 30 L537 205 L42 205 Z"
+                    />
+                    <path
+                      class="line"
+                      id="line"
+                      d="M42 164 L87 143 L132 151 L177 112 L222 125 L267 87 L312 99 L357 68 L402 83 L447 47 L492 60 L537 30"
+                    />
+                    <circle class="point" cx="537" cy="30" r="5" />
+                    <text class="chart-label" x="42" y="225">1</text>
+                    <text class="chart-label" x="132" y="225">5</text>
+                    <text class="chart-label" x="222" y="225">10</text>
+                    <text class="chart-label" x="312" y="225">15</text>
+                    <text class="chart-label" x="402" y="225">20</text>
+                    <text class="chart-label" x="492" y="225">25</text>
+                    <text class="chart-label" x="530" y="225">30</text>
+                  </g>
+                </svg>
+              </div>
+            </section>
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Sales by Category</h2>
+                  <div class="sub">Where your sales are coming from</div>
+                </div>
+                <button class="view" id="details">Details ↗</button>
+              </div>
+              <div class="donut-wrap">
+                <svg
+                  class="donut"
+                  viewBox="0 0 160 160"
+                  role="img"
+                  aria-label="Sales category donut chart"
+                >
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="58"
+                    fill="none"
+                    stroke="#eef1f7"
+                    stroke-width="18"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="58"
+                    fill="none"
+                    stroke="#3467eb"
+                    stroke-width="18"
+                    stroke-dasharray="174 365"
+                    transform="rotate(-90 80 80)"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="58"
+                    fill="none"
+                    stroke="#ff8a3d"
+                    stroke-width="18"
+                    stroke-dasharray="102 365"
+                    stroke-dashoffset="-181"
+                    transform="rotate(-90 80 80)"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="58"
+                    fill="none"
+                    stroke="#8d72ec"
+                    stroke-width="18"
+                    stroke-dasharray="58 365"
+                    stroke-dashoffset="-290"
+                    transform="rotate(-90 80 80)"
+                  />
+                  <text
+                    x="80"
+                    y="76"
+                    text-anchor="middle"
+                    font-size="10"
+                    fill="#8b96aa"
+                  >
+                    Total sales
+                  </text>
+                  <text
+                    x="80"
+                    y="96"
+                    text-anchor="middle"
+                    font-size="19"
+                    font-weight="800"
+                    fill="#17233c"
+                  >
+                    $48.3k
+                  </text>
+                </svg>
+                <div class="legend-list">
+                  <div class="legend-item">
+                    <i style="background: #3467eb"></i>
+                    <div><strong>47.6%</strong><span>Electronics</span></div>
+                  </div>
+                  <div class="legend-item">
+                    <i style="background: #ff8a3d"></i>
+                    <div><strong>28.1%</strong><span>Fashion</span></div>
+                  </div>
+                  <div class="legend-item">
+                    <i style="background: #8d72ec"></i>
+                    <div><strong>16.4%</strong><span>Home & Living</span></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <section class="panel table-panel">
+            <div class="panel-head">
+              <div>
+                <h2>Recent Orders</h2>
+                <div class="sub">A quick look at your latest transactions</div>
+              </div>
+              <button class="view" id="viewAll">View all orders →</button>
+            </div>
+            <div class="table-wrap">
+              <table id="orders">
+                <thead>
+                  <tr>
+                    <th>ORDER</th>
+                    <th>CUSTOMER</th>
+                    <th>DATE</th>
+                    <th>AMOUNT</th>
+                    <th>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#ORD-7841</td>
+                    <td>
+                      <div class="customer">
+                        <div class="customer-avatar">EW</div>
+                        <div>Emma Wilson<small>emma.w@example.com</small></div>
+                      </div>
+                    </td>
+                    <td>Oct 13, 2026</td>
+                    <td>$248.00</td>
+                    <td><span class="status paid">Paid</span></td>
+                  </tr>
+                  <tr>
+                    <td>#ORD-7840</td>
+                    <td>
+                      <div class="customer">
+                        <div
+                          class="customer-avatar"
+                          style="background: #fff0e5; color: #c86b2e"
+                        >
+                          LJ
+                        </div>
+                        <div>Liam Johnson<small>liam.j@example.com</small></div>
+                      </div>
+                    </td>
+                    <td>Oct 13, 2026</td>
+                    <td>$129.50</td>
+                    <td><span class="status pending">Pending</span></td>
+                  </tr>
+                  <tr>
+                    <td>#ORD-7839</td>
+                    <td>
+                      <div class="customer">
+                        <div
+                          class="customer-avatar"
+                          style="background: #e9f8f1; color: #168a63"
+                        >
+                          SM
+                        </div>
+                        <div>
+                          Sophia Martinez<small>sophia.m@example.com</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Oct 12, 2026</td>
+                    <td>$560.00</td>
+                    <td><span class="status paid">Paid</span></td>
+                  </tr>
+                  <tr>
+                    <td>#ORD-7838</td>
+                    <td>
+                      <div class="customer">
+                        <div
+                          class="customer-avatar"
+                          style="background: #f0eaff; color: #8058d8"
+                        >
+                          NB
+                        </div>
+                        <div>Noah Brown<small>noah.b@example.com</small></div>
+                      </div>
+                    </td>
+                    <td>Oct 12, 2026</td>
+                    <td>$74.99</td>
+                    <td><span class="status cancelled">Cancelled</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+      const toast = document.getElementById("toast");
+      let toastTimer;
+      function notify(text) {
+        toast.textContent = text;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 2500);
+      }
+      document.querySelectorAll(".nav button").forEach((btn) =>
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".nav button")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById("currentTitle").textContent =
+            btn.dataset.page;
+          document.getElementById("crumb").textContent = btn.dataset.page;
+          if (btn.dataset.page !== "Overview")
+            notify(btn.dataset.page + " selected — demo navigation");
+          document.body.classList.remove("menu-open");
+        }),
+      );
+      document
+        .getElementById("menuToggle")
+        .addEventListener("click", () =>
+          document.body.classList.toggle("menu-open"),
+        );
+      document
+        .getElementById("overlay")
+        .addEventListener("click", () =>
+          document.body.classList.remove("menu-open"),
+        );
+      document
+        .getElementById("notifications")
+        .addEventListener("click", () => notify("You're all caught up!"));
+      document
+        .getElementById("helpBtn")
+        .addEventListener("click", () =>
+          notify("Help center opened in demo mode."),
+        );
+      document
+        .getElementById("details")
+        .addEventListener("click", () =>
+          notify("Category report — demo data."),
+        );
+      document
+        .getElementById("viewAll")
+        .addEventListener("click", () =>
+          notify("Showing the latest 4 demo orders."),
+        );
+      document.getElementById("search").addEventListener("input", (e) => {
+        const q = e.target.value.toLowerCase().trim();
+        let n = 0;
+        document.querySelectorAll("#orders tbody tr").forEach((r) => {
+          const match = r.textContent.toLowerCase().includes(q);
+          r.style.display = match ? "" : "none";
+          if (match) n++;
+        });
+        if (q && !n) notify("No matching orders found.");
+      });
+      const data = {
+        week: {
+          total: "$11,840",
+          line: "M42 155 L125 115 L208 135 L291 75 L374 95 L457 48 L537 32",
+          area: "M42 155 L125 115 L208 135 L291 75 L374 95 L457 48 L537 32 L537 205 L42 205 Z",
+        },
+        month: {
+          total: "$48,294",
+          line: "M42 164 L87 143 L132 151 L177 112 L222 125 L267 87 L312 99 L357 68 L402 83 L447 47 L492 60 L537 30",
+          area: "M42 164 L87 143 L132 151 L177 112 L222 125 L267 87 L312 99 L357 68 L402 83 L447 47 L492 60 L537 30 L537 205 L42 205 Z",
+        },
+        year: {
+          total: "$524,680",
+          line: "M42 174 L87 159 L132 141 L177 150 L222 105 L267 117 L312 85 L357 91 L402 60 L447 70 L492 43 L537 25",
+          area: "M42 174 L87 159 L132 141 L177 150 L222 105 L267 117 L312 85 L357 91 L402 60 L447 70 L492 43 L537 25 L537 205 L42 205 Z",
+        },
+      };
+      document.getElementById("period").addEventListener("change", (e) => {
+        const d = data[e.target.value];
+        document.getElementById("revenue").innerHTML =
+          d.total + " <span>↗ 12.8%</span>";
+        document.getElementById("line").setAttribute("d", d.line);
+        document.getElementById("area").setAttribute("d", d.area);
+      });
+      document.getElementById("today").textContent =
+        new Date().toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+    </script>
+  </body>
+</html>
