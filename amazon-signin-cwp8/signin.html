@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amazon Sign-in Page Clone</title>
+    <style>
+      :root {
+        --amazon-yellow: #f3a847;
+        --amazon-yellow-hover: #f2a33d;
+        --amazon-blue: #007185;
+        --border-gray: #d5d9d9;
+        --text-gray: #565959;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Amazon Ember", "Helvetica Neue", Arial, sans-serif;
+        background: #fff;
+        color: #0f1111;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      header.top-logo {
+        display: flex;
+        justify-content: center;
+        padding-top: 20px;
+      }
+      header.top-logo img {
+        width: 150px;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        padding: 28px 10px 40px;
+      }
+
+      .signin-card {
+        width: 100%;
+        max-width: 350px;
+        max-height: 400px;
+        border: 1px solid var(--border-gray);
+        border-radius: 8px;
+        padding: 20px 20px 24px;
+        box-shadow: 0 2px 5px rgba(15, 17, 17, 0.08);
+      }
+
+      .signin-card h1 {
+        font-size: 28px;
+        font-weight: 400;
+        margin: 0 0 14px;
+        line-height: 1.2;
+      }
+
+      label {
+        font-size: 13px;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 7px 8px;
+        font-size: 15px;
+        border: 1px solid #a6a6a6;
+        border-radius: 3px;
+        box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05);
+        margin-bottom: 14px;
+      }
+      input[type="text"]:focus {
+        border-color: #e77600;
+        box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
+        outline: none;
+      }
+
+      button.continue-btn {
+        width: 100%;
+        background: linear-gradient(to bottom, #f7dfa5, var(--amazon-yellow));
+        border: 1px solid #a88734;
+        border-radius: 8px;
+        padding: 9px 0;
+        font-size: 14px;
+        cursor: pointer;
+        margin-bottom: 14px;
+      }
+      button.continue-btn:hover {
+        background: linear-gradient(
+          to bottom,
+          #f5d78e,
+          var(--amazon-yellow-hover)
+        );
+      }
+
+      .legal-text {
+        font-size: 12px;
+        color: #111;
+        line-height: 1.5;
+        margin-bottom: 14px;
+      }
+      .legal-text a {
+        color: var(--amazon-blue);
+        text-decoration: none;
+      }
+      .legal-text a:hover {
+        color: #c45500;
+        text-decoration: underline;
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid #e7e7e7;
+        margin: 14px 0;
+      }
+
+      .business-heading {
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .business-link {
+        font-size: 13px;
+        color: var(--amazon-blue);
+        text-decoration: none;
+      }
+      .business-link:hover {
+        color: #c45500;
+        text-decoration: underline;
+      }
+
+      footer {
+        border-top: 1px solid #e7e7e7;
+        text-align: center;
+        padding: 18px 10px 24px;
+        font-size: 12px;
+        color: var(--text-gray);
+      }
+      footer .footer-links a {
+        color: var(--amazon-blue);
+        text-decoration: none;
+        margin: 0 8px;
+      }
+      footer .footer-links a:hover {
+        text-decoration: underline;
+        color: #c45500;
+      }
+      footer .copyright {
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="logo" class="top-logo">
+      <img src="amazon-logo.png" alt="Amazon logo" />
+    </header>
+
+    <main>
+      <div class="signin-card">
+        <h1>Sign in or create account</h1>
+
+        <form id="signinForm" autocomplete="off">
+          <label for="loginId">Enter mobile number or email</label>
+          <input
+            type="text"
+            id="loginId"
+            name="loginId"
+            autocapitalize="off"
+            autocomplete="off"
+          />
+
+          <button type="submit" class="continue-btn">Continue</button>
+
+          <p class="legal-text">
+            By continuing, you agree to Amazon's
+            <a href="#" onclick="return false;">Conditions of Use</a> and
+            <a href="#" onclick="return false;">Privacy Notice</a>.
+          </p>
+        </form>
+
+        <hr class="divider" />
+
+        <p class="business-heading">Buying for work?</p>
+        <a href="#" class="business-link" onclick="return false;"
+          >Create a free business account</a
+        >
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-links">
+        <a href="#" onclick="return false;">Conditions of Use</a>
+        <a href="#" onclick="return false;">Privacy Notice</a>
+        <a href="#" onclick="return false;">Help</a>
+      </div>
+      <div class="copyright">
+        &copy; 1996-2026, Amazon.com, Inc. or its affiliates (practice clone,
+        non-functional)
+      </div>
+    </footer>
+  </body>
+</html>
