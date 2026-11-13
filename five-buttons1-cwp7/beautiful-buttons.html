@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Five buttons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1b2320;
+    --accent: #2142c4;
+    --accent-dark: #17308f;
+    --muted: #6a756f;
+    --font: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+
+  body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 40px 20px;
+    background: #eceee9;
+    color: var(--ink);
+    font-family: var(--font);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 20px;
+    width: min(100%, 760px);
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 36px 16px 26px;
+    border-radius: 24px;
+    background: #fbfaf7;
+    box-shadow: 0 14px 30px -20px rgba(27, 35, 32, .4);
+  }
+  .cell p { font-size: 13.5px; color: var(--muted); }
+
+  /* ---------- shared ---------- */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 28px;
+    border: 0;
+    border-radius: 14px;
+    font: 600 16px var(--font);
+    letter-spacing: -.005em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .3s, background-color .25s, color .25s;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+  .btn svg { flex: none; transition: transform .3s; }
+
+  /* 1. arrow slide */
+  .arrow {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 10px 20px -10px rgba(33, 66, 196, .7);
+  }
+  .arrow:hover {
+    background: var(--accent-dark);
+    box-shadow: 0 14px 26px -10px rgba(33, 66, 196, .85);
+  }
+  .arrow:hover svg { transform: translateX(5px); }
+
+  /* 2. fill sweep */
+  .sweep {
+    overflow: hidden;
+    isolation: isolate;
+    background: transparent;
+    color: var(--ink);
+    box-shadow: inset 0 0 0 2px var(--ink);
+  }
+  .sweep::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--ink);
+    transform: translateX(-101%);
+    transition: transform .4s cubic-bezier(.7, 0, .2, 1);
+  }
+  .sweep:hover { color: #fff; }
+  .sweep:hover::before { transform: translateX(0); }
+
+  /* 3. warm gradient lift */
+  .glow {
+    border-radius: 99px;
+    background: linear-gradient(135deg, #ff9456, #e8456b);
+    color: #fff;
+    box-shadow: 0 10px 22px -10px rgba(232, 69, 107, .8);
+  }
+  .glow:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 30px -12px rgba(232, 69, 107, .85), 0 0 0 6px rgba(232, 69, 107, .12);
+  }
+  .glow:active { transform: translateY(-1px) scale(.98); }
+
+  /* 4. soft tint */
+  .soft {
+    background: #d9eae2;
+    color: #1c5a48;
+  }
+  .soft:hover { background: #1c5a48; color: #fff; }
+  .soft:hover svg { transform: rotate(90deg); }
+
+  /* 5. shine sweep */
+  .shine {
+    overflow: hidden;
+    background: linear-gradient(180deg, #2b3532, var(--ink));
+    color: #fff;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 12px 20px -12px rgba(27, 35, 32, .8);
+  }
+  .shine::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    left: -60%;
+    width: 40%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+    transform: skewX(-20deg);
+  }
+  .shine:hover::after {
+    left: 130%;
+    transition: left .7s ease;
+  }
+  .shine:hover { transform: translateY(-2px); }
+  .shine:active { transform: scale(.97); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<main class="grid">
+
+  <div class="cell">
+    <button class="btn arrow" type="button">
+      Get started
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+    <p>Arrow slide</p>
+  </div>
+
+  <div class="cell">
+    <button class="btn sweep" type="button">Learn more</button>
+    <p>Fill sweep</p>
+  </div>
+
+  <div class="cell">
+    <button class="btn glow" type="button">Shop the drop</button>
+    <p>Warm lift</p>
+  </div>
+
+  <div class="cell">
+    <button class="btn soft" type="button">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      Add to list
+    </button>
+    <p>Soft tint</p>
+  </div>
+
+  <div class="cell">
+    <button class="btn shine" type="button">Join the club</button>
+    <p>Shine sweep</p>
+  </div>
+
+</main>
+
+</body>
+</html>
